@@ -22,3 +22,4 @@ pip install dockerintegration
 - need temporary 'projects' - throw them away
 - parallel execution
 - Specify docker-compose.yml file to use, base dir etc
+- Docker should not have to be running to run tests
