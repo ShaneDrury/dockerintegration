@@ -23,3 +23,5 @@ pip install dockerintegration
 - parallel execution
 - Specify docker-compose.yml file to use, base dir etc
 - Docker should not have to be running to run tests
+- Get docker details from env variables
+- Needs to be somewhat independent in terms of Docker versions
