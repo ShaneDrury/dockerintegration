@@ -1,9 +1,9 @@
 import random
-
-import pytest
 import string
 
-from dockerintegration.docker import DockerClient
+import pytest
+
+from .docker import DockerClient
 from .stack import Stack
 
 
