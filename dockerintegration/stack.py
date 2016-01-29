@@ -1,6 +1,3 @@
-from dockerintegration.containers import Container
-
-
 class Stack(object):
     def __init__(self, docker_client):
         self._docker = docker_client
@@ -15,12 +12,10 @@ class Stack(object):
         self._docker.remove()
 
     @property
-    def containers(self):
-        # TODO: Fill this in properly
-        return [Container('name', 'host', 123), ]
+    def services(self):
+        return self._docker.services
 
     def setup(self):
-        self._stop()
         self._up()
 
     def teardown(self, remove=True):

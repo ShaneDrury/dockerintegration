@@ -11,4 +11,3 @@ setup(
         description='Use docker with integration tests',
         install_requires=['docker-compose', ],
 )
-

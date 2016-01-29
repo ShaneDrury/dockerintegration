@@ -1,0 +1,10 @@
+foo:
+  build: .
+  ports:
+    - "59001"
+
+bar:
+  build: .
+  ports:
+    - "59002"
+    - "59003"

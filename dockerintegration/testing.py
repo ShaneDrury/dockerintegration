@@ -1,3 +1,4 @@
+import os
 import random
 import string
 
@@ -8,10 +9,9 @@ from .stack import Stack
 
 
 def get_config():
-    # TODO: Get this e.g. from env variables
     return {
-        'base_dir': '.',
-        'config_path': 'docker-compose.yml'
+        'base_dir': os.environ.get('COMPOSE_BASE_DIR', '.'),
+        'config_path': os.environ.get('COMPOSE_FILE', 'docker-compose.yml')
     }
 
 
@@ -22,8 +22,7 @@ def get_pytest_config(request):
 
 
 def random_name():
-    return ''.join(random.choice(string.ascii_letters)
-                               for _ in range(25))
+    return ''.join(random.choice(string.ascii_letters) for _ in range(25))
 
 
 def get_testing_stack(config):
@@ -39,4 +38,4 @@ def docker_fixture(request):
     stack = get_testing_stack(config)
     stack.setup()
     request.addfinalizer(lambda: stack.teardown(remove=True))
-    return stack.containers
+    return stack.services

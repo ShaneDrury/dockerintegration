@@ -1,4 +1,4 @@
-from dockerintegration.docker import DockerClientStub
+from dockerintegration.docker import DockerClientStub, DockerClient
 from dockerintegration.stack import Stack
 
 

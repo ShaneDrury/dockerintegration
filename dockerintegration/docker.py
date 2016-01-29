@@ -1,4 +1,7 @@
+import six
 from compose.cli.command import get_project
+
+from .containers import Container, Address, InternalPort
 
 
 class DockerClientStub(object):
@@ -14,6 +17,7 @@ class DockerClientStub(object):
     def __init__(self):
         self.created_state = self.CREATED_STATES['NOT_CREATED']
         self.state = self.STATES['STOPPED']
+        self._services = {}
 
     def up(self):
         self.created_state = self.CREATED_STATES['CREATED']
@@ -26,6 +30,10 @@ class DockerClientStub(object):
     def remove(self):
         self.created_state = self.CREATED_STATES['NOT_CREATED']
         self.state = self.STATES['STOPPED']
+
+    @property
+    def services(self):
+        return self._services
 
 
 class DockerClient(object):
@@ -44,3 +52,27 @@ class DockerClient(object):
 
     def remove(self):
         self.project.remove_stopped()
+
+    @staticmethod
+    def _internal_port_from_docker(docker_port):
+        port, transport = docker_port.split('/')
+        return InternalPort(int(port), transport)
+
+    @classmethod
+    def _addresses_from_container(cls, docker_container):
+        return {
+            cls._internal_port_from_docker(internal):
+                [Address(address['HostIp'], int(address['HostPort']))
+                 for address in addresses]
+            for internal, addresses in six.iteritems(docker_container.ports)
+        }
+
+    @property
+    def services(self):
+        return {
+            service.name: [
+                Container(container.name, self._addresses_from_container(container))
+                for container in service.containers()
+                ]
+            for service in self.project.services
+            }
