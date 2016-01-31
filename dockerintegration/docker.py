@@ -55,8 +55,7 @@ class DockerClient(object):
 
     @staticmethod
     def _internal_port_from_docker(docker_port):
-        port, transport = docker_port.split('/')
-        return InternalPort(int(port), transport)
+        return int(docker_port.split('/')[0])
 
     @classmethod
     def _addresses_from_container(cls, docker_container):
@@ -76,3 +75,14 @@ class DockerClient(object):
                 ]
             for service in self.project.services
             }
+
+    @property
+    def ports(self):
+        return {
+            name: {
+                internal: [address.port for address in external]
+                for container in containers
+                for internal, external in six.iteritems(container.addresses)
+            }
+            for name, containers in six.iteritems(self.services)
+        }

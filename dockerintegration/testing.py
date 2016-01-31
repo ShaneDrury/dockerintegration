@@ -38,4 +38,4 @@ def docker_fixture(request):
     stack = get_testing_stack(config)
     stack.setup()
     request.addfinalizer(lambda: stack.teardown(remove=True))
-    return stack.services
+    return stack

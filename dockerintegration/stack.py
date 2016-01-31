@@ -15,6 +15,10 @@ class Stack(object):
     def services(self):
         return self._docker.services
 
+    @property
+    def ports(self):
+        return self._docker.ports
+
     def setup(self):
         self._up()
 

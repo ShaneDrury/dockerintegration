@@ -9,19 +9,29 @@ Set-up and tear-down for integration tests.
 pip install dockerintegration
 ```
 
+## Example Usage
+
+# py.test
+
+```python
+# conftest.py
+from dockerintegration.testing import docker_fixture
+```
+
+```python
+# test_redis.py
+from redis import StrictRedis
+
+def test_push_to_redis(docker_fixture):
+    container = docker_fixture.services['redis'][0]
+    host_address = container.addresses[6379][0]
+    redis = StrictRedis(host=host_address.ip, port=host_address.port)
+    redis.rpush('key', ['value'])
+```
+
 
 ## TODO
 
 - Test set-up
-- Control docker in python
-- POSSIBLY put them in an interface -> class
-- docker-compose up
-- docker-compose stop
-- get service address
 - wait until up for services - optional, may depend on service
-- need temporary 'projects' - throw them away
 - parallel execution
-- Specify docker-compose.yml file to use, base dir etc
-- Docker should not have to be running to run tests
-- Get docker details from env variables
-- Needs to be somewhat independent in terms of Docker versions
