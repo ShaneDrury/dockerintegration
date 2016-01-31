@@ -1,3 +1,6 @@
+import six
+
+
 class Stack(object):
     def __init__(self, docker_client):
         self._docker = docker_client
@@ -17,7 +20,14 @@ class Stack(object):
 
     @property
     def ports(self):
-        return self._docker.ports
+        return {
+            name: {
+                internal: [address.port for address in external]
+                for container in containers
+                for internal, external in six.iteritems(container.addresses)
+            }
+            for name, containers in six.iteritems(self.services)
+        }
 
     def setup(self):
         self._up()
