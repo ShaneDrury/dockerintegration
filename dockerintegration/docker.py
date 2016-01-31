@@ -75,4 +75,3 @@ class DockerClient(object):
                 ]
             for service in self.project.services
             }
-

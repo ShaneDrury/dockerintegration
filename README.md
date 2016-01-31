@@ -27,6 +27,15 @@ def test_push_to_redis(docker_fixture):
     host_address = container.addresses[6379][0]
     redis = StrictRedis(host=host_address.ip, port=host_address.port)
     redis.rpush('key', ['value'])
+    ...
+
+# or
+
+def test_push_to_redis_better(docker_fixture):
+    host_address = docker_fixture.get_first_container_address('redis', 6379)
+    redis = StrictRedis(host=host_address.ip, port=host_address.port)
+    redis.rpush('key', ['value'])
+    ...
 ```
 
 

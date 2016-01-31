@@ -22,3 +22,10 @@ def test_docker_fixture_ports(docker_fixture, service_internal_ports):
     for service_name, port_mapping in six.iteritems(docker_fixture.ports):
         internal_ports = port_mapping.keys()
         assert sorted(service_internal_ports[service_name]) == sorted(internal_ports)
+
+
+def test_docker_get_first_container(docker_fixture, service_internal_ports):
+    for name, ports in six.iteritems(service_internal_ports):
+        for port in ports:
+            address = docker_fixture.get_first_container_address(name, port)
+            assert docker_fixture.ports[name][port][0] == address.port

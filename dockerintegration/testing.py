@@ -2,8 +2,6 @@ import os
 import random
 import string
 
-import pytest
-
 from .docker import DockerClient
 from .stack import Stack
 
@@ -31,7 +29,6 @@ def get_testing_stack(config):
     return Stack(client)
 
 
-@pytest.fixture
 def docker_fixture(request):
     config = get_config()
     config.update(get_pytest_config(request))

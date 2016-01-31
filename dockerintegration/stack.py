@@ -29,6 +29,11 @@ class Stack(object):
             for name, containers in six.iteritems(self.services)
         }
 
+    def get_first_container_address(self, name, internal_port):
+        first_container = self.services[name][0]
+        addresses = first_container.addresses[internal_port]
+        return addresses[0]
+
     def setup(self):
         self._up()
 
