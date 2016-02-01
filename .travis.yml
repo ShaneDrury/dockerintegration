@@ -9,4 +9,4 @@ install:
   - "pip install -r requirements/local.txt"
 
 script:
-  - "make test"
+  - "make testall"
