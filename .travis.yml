@@ -10,3 +10,6 @@ install:
 
 script:
   - "make testall"
+
+notifications:
+  email: false
