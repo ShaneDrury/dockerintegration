@@ -1,5 +1,7 @@
 # Docker Integration
 
+[![Build Status](https://travis-ci.org/ShaneDrury/dockerintegration.svg?branch=master)](https://travis-ci.org/ShaneDrury/dockerintegration)
+
 Control Docker from within Python scripts.
 Set-up and tear-down for integration tests.
 
