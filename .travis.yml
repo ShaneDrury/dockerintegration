@@ -1,0 +1,12 @@
+language: python
+
+sudo: required
+
+services:
+  - docker
+
+install:
+  - "pip install -r requirements/local.txt"
+
+script:
+  - "make testall"
