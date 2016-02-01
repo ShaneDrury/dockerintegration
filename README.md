@@ -41,6 +41,5 @@ def test_push_to_redis_better(docker_fixture):
 
 ## TODO
 
-- Test set-up
+- Test set-up for unittest
 - wait until up for services - optional, may depend on service
-- parallel execution
