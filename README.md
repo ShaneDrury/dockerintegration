@@ -5,6 +5,11 @@
 Control Docker from within Python scripts.
 Set-up and tear-down for integration tests.
 
+## Requirements
+* Python (Tested on 2.7.10, 2.7.11, 3.5.1)
+* [Docker](https://docs.docker.com/engine/installation/) (Tested on 1.8.2, 1.9.1)
+* [docker-compose](https://docs.docker.com/compose/) (Tested on 1.4.2, 1.5.2)
+
 ## Installation
 
 ```python
