@@ -53,25 +53,25 @@ class DockerClient(object):
     def remove(self):
         self.project.remove_stopped()
 
-    @staticmethod
-    def _internal_port_from_docker(docker_port):
-        return int(docker_port.split('/')[0])
-
-    @classmethod
-    def _addresses_from_container(cls, docker_container):
-        return {
-            cls._internal_port_from_docker(internal):
-                [Address(address['HostIp'], int(address['HostPort']))
-                 for address in addresses]
-            for internal, addresses in six.iteritems(docker_container.ports)
-        }
-
     @property
     def services(self):
         return {
             service.name: [
-                Container(container.name, self._addresses_from_container(container))
+                Container(container.name, addresses_from_container(container))
                 for container in service.containers()
                 ]
             for service in self.project.services
-            }
+        }
+
+
+def internal_port_from_docker(docker_port):
+    return int(docker_port.split('/')[0])
+
+
+def addresses_from_container(docker_container):
+    return {
+        internal_port_from_docker(internal):
+            [Address(address['HostIp'], int(address['HostPort']))
+             for address in addresses]
+        for internal, addresses in six.iteritems(docker_container.ports)
+    }

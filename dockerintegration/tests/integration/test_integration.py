@@ -5,8 +5,8 @@ import six
 @pytest.fixture
 def service_internal_ports():
     return {
-        'foo': [59001, ],
-        'bar': [59002, 59003]
+        'oneport': [59001, ],
+        'twoports': [59002, 59003]
     }
 
 

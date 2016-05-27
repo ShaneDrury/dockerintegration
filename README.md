@@ -36,7 +36,7 @@ def test_push_to_redis(docker_fixture):
     redis.rpush('key', ['value'])
     ...
 
-# or
+# or if you're only running one container for a service
 
 def test_push_to_redis_better(docker_fixture):
     host_address = docker_fixture.get_first_container_address('redis', 6379)
@@ -54,4 +54,3 @@ make test
 ## TODO
 
 - Test set-up for unittest
-- wait until up for services - optional, may depend on service
