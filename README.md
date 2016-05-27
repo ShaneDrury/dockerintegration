@@ -22,7 +22,7 @@ pip install dockerintegration
 
 ```python
 # conftest.py
-from dockerintegration.testing import docker_fixture
+from dockerintegration import docker_fixture
 ```
 
 ```python

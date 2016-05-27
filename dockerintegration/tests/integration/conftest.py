@@ -1,6 +1,6 @@
 import pytest
 
-from dockerintegration.testing import docker_fixture as _docker_fixture
+from dockerintegration import docker_fixture as _docker_fixture
 
 
 @pytest.fixture(scope='module')

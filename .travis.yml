@@ -9,7 +9,7 @@ install:
   - "pip install -r requirements/local.txt"
 
 script:
-  - "make testall"
+  - "make test"
 
 notifications:
   email: false
