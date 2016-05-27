@@ -3,20 +3,11 @@ import six
 
 class Stack(object):
     def __init__(self, docker_client):
-        self._docker = docker_client
-
-    def _stop(self):
-        self._docker.stop()
-
-    def _up(self):
-        self._docker.up()
-
-    def _remove(self):
-        self._docker.remove()
+        self.docker_client = docker_client
 
     @property
     def services(self):
-        return self._docker.services
+        return self.docker_client.services
 
     @property
     def ports(self):
@@ -35,9 +26,9 @@ class Stack(object):
         return addresses[0]
 
     def setup(self):
-        self._up()
+        self.docker_client.up()
 
     def teardown(self, remove=True):
-        self._stop()
+        self.docker_client.stop()
         if remove:
-            self._remove()
+            self.docker_client.remove()
