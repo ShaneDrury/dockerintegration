@@ -1,5 +1,7 @@
 import six
 
+from dockerintegration.exceptions import NoSuchContainerPortException, NoSuchServiceException
+
 
 class Stack(object):
     def __init__(self, docker_client):
@@ -20,9 +22,15 @@ class Stack(object):
             for name, containers in six.iteritems(self.services)
         }
 
-    def get_first_container_address(self, name, internal_port):
-        first_container = self.services[name][0]
-        addresses = first_container.addresses[internal_port]
+    def get_first_address_by_service(self, service_name, container_port):
+        try:
+            first_container = self.services[service_name][0]
+        except KeyError:
+            raise NoSuchServiceException(service_name)
+        try:
+            addresses = first_container.addresses[container_port]
+        except KeyError:
+            raise NoSuchContainerPortException(container_port)
         return addresses[0]
 
     def setup(self):

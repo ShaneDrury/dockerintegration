@@ -14,10 +14,13 @@ class DockerClientStub(object):
         'CREATED': 'CREATED'
     }
 
-    def __init__(self):
+    def __init__(self, services=None):
         self.created_state = self.CREATED_STATES['NOT_CREATED']
         self.state = self.STATES['STOPPED']
-        self._services = {}
+        if services is not None:
+            self._services = services
+        else:
+            self._services = {}
 
     def up(self):
         self.created_state = self.CREATED_STATES['CREATED']

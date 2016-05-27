@@ -27,5 +27,5 @@ def test_docker_fixture_ports(docker_fixture, service_internal_ports):
 def test_docker_get_first_container(docker_fixture, service_internal_ports):
     for name, ports in six.iteritems(service_internal_ports):
         for port in ports:
-            address = docker_fixture.get_first_container_address(name, port)
+            address = docker_fixture.get_first_address_by_service(name, port)
             assert docker_fixture.ports[name][port][0] == address.port

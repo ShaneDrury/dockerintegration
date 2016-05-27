@@ -39,7 +39,7 @@ def test_push_to_redis(docker_fixture):
 # or if you're only running one container for a service
 
 def test_push_to_redis_better(docker_fixture):
-    host_address = docker_fixture.get_first_container_address('redis', 6379)
+    host_address = docker_fixture.get_first_address_by_service('redis', 6379)
     redis = StrictRedis(host=host_address.ip, port=host_address.port)
     redis.rpush('key', ['value'])
     ...
