@@ -45,6 +45,11 @@ def test_push_to_redis_better(docker_fixture):
     ...
 ```
 
+## Running Tests
+
+```bash
+make test
+```
 
 ## TODO
 

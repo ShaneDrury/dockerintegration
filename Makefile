@@ -8,7 +8,7 @@ make help          - Show this message
 make clean         - Remove generated files
 make test          - Run tests
 make integration   - Run integration tests
-make testall       - Run tests including integration
+make quicktest     - Run tests excluding integration
 endef
 
 export HELP
@@ -27,5 +27,5 @@ test:
 integration:
 	tox -e integration
 
-testall:
-	tox -e all
+quicktest:
+	tox -e quicktest
