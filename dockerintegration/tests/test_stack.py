@@ -1,62 +1,67 @@
 import pytest
 
-from dockerintegration.containers import Container, Address
+from dockerintegration.containers import Container, Address, Service
 from dockerintegration.docker import DockerClientStub
-from dockerintegration.exceptions import NoSuchServiceException, NoSuchContainerPortException
 from dockerintegration.stack import Stack
 
 
 @pytest.fixture()
 def services():
     return {
-        'foo': [Container('foo_1', addresses={6789: [Address('0.0.0.0', 1234)]})],
-        'bar': [Container('bar_1', addresses={7000: [Address('1.2.3.4', 5678)]})]
+        'foo': Service(
+            name='foo',
+            containers=[
+                Container(
+                    'foo_1',
+                    addresses={6789: [Address('0.0.0.0', 1234)]}
+                )
+            ]
+        ),
+        'bar': Service(
+            name='bar',
+            containers=[
+                Container('bar_1', addresses={7000: [Address('1.2.3.4', 5678)]})
+            ]
+        )
     }
 
 
 def test_post_setup_state():
     docker_client = DockerClientStub()
-    stack = Stack(docker_client)
-    stack.setup()
-    assert docker_client.state == docker_client.STATES['UP']
-    assert docker_client.created_state == docker_client.CREATED_STATES['CREATED']
+    with Stack(docker_client):
+        assert docker_client.state == docker_client.STATES['UP']
+        assert docker_client.created_state == docker_client.CREATED_STATES['CREATED']
 
 
 def test_post_teardown_state():
     docker_client = DockerClientStub()
-    stack = Stack(docker_client)
-    stack.teardown()
+    with Stack(docker_client):
+        pass
     assert docker_client.state == docker_client.STATES['STOPPED']
     assert docker_client.created_state == docker_client.CREATED_STATES['NOT_CREATED']
 
 
-def test_post_teardown_state_no_remove():
-    docker_client = DockerClientStub()
-    stack = Stack(docker_client)
-    stack.teardown(remove=False)
-    assert docker_client.state == docker_client.STATES['STOPPED']
-    assert docker_client.created_state == docker_client.CREATED_STATES['CREATED']
-
-
 def test_get_first_container_address(services):
     docker_client = DockerClientStub(services=services)
-    stack = Stack(docker_client)
-    address = stack.get_first_address_by_service('foo', 6789)
-    assert address == services['foo'][0].addresses[6789][0]
+    with Stack(docker_client) as stack:
+        service = stack.services['foo']
+        container = service.get_containers_by_port(6789)[0]
+        address = container.addresses[6789][0]
+    assert address == services['foo'].containers[0].addresses[6789][0]
 
 
 def test_get_non_existent_service(services):
     docker_client = DockerClientStub(services=services)
-    stack = Stack(docker_client)
-    with pytest.raises(NoSuchServiceException):
-        stack.get_first_address_by_service('baz', 6789)
+    with Stack(docker_client) as stack:
+        assert stack.services.get('baz') is None
 
 
 def test_get_non_existent_internal_port(services):
     docker_client = DockerClientStub(services=services)
-    stack = Stack(docker_client)
-    with pytest.raises(NoSuchContainerPortException):
-        stack.get_first_address_by_service('foo', 4000)
+    with Stack(docker_client) as stack:
+        service = stack.services['foo']
+        containers = service.get_containers_by_port(4000)
+        assert containers == []
 
 
 def test_get_services(services):

@@ -26,6 +26,6 @@ def get_testing_stack(config):
 def docker_fixture(request):
     config = get_config()
     stack = get_testing_stack(config)
-    stack.setup()
-    request.addfinalizer(lambda: stack.teardown(remove=True))
+    stack.__enter__()
+    request.addfinalizer(lambda: stack.__exit__())
     return stack
