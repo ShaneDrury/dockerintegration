@@ -1,1 +1,1 @@
-from .testing import docker_fixture
+from .testing import docker_stack

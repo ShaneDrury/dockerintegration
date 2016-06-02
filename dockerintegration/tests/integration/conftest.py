@@ -1,8 +1,8 @@
 import pytest
 
-from dockerintegration import docker_fixture as _docker_fixture
+from dockerintegration import docker_stack as _docker_stack
 
 
 @pytest.fixture(scope='module')
-def docker_fixture(request):
-    return _docker_fixture(request)
+def docker_stack(request):
+    return _docker_stack(request)

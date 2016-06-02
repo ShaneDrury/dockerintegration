@@ -30,23 +30,23 @@ $ py.test
 
 ```python
 # conftest.py
-from dockerintegration import docker_fixture
+from dockerintegration import docker_stack
 ```
 
 ```python
 # test_redis.py
 from redis import StrictRedis
 
-def test_push_to_redis(docker_fixture):
-    address = docker_fixture.services['redis'].get_addresses_by_port(6379)[0]
+def test_push_to_redis(docker_stack):
+    address = docker_stack.services['redis'].get_addresses_by_port(6379)[0]
     redis = StrictRedis(host=address.ip, port=address.port)
     redis.rpush('key', ['value'])
     ...
 
 # or if you're only running one container for a service
 
-def test_push_to_redis_better(docker_fixture):
-    address = docker_fixture.services['redis'].get_one_address_by_port(6379)
+def test_push_to_redis_better(docker_stack):
+    address = docker_stack.services['redis'].get_one_address_by_port(6379)
     redis = StrictRedis(host=address.ip, port=address.port)
     redis.rpush('key', ['value'])
     ...
@@ -62,9 +62,9 @@ def test_scaling_web_app():
         base_dir='.',
         config_path='docker-compose.yml'
     )
-    with Stack(client) as stack:
-        stack.scale('app', 4)
-        nginx_address = stack.services['nginx'].get_one_address_by_port(80)
+    with Stack(client) as docker_stack:
+        docker_stack.scale('app', 4)
+        nginx_address = docker_stack.services['nginx'].get_one_address_by_port(80)
         requests.get("http://{ip}:{port}".format(ip=nginx_address.ip, port=nginx_address.port))
         ...
         # Test the scaled app handles requests correctly

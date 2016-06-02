@@ -23,7 +23,7 @@ def get_testing_stack(config):
     return Stack(client)
 
 
-def docker_fixture(request):
+def docker_stack(request):
     config = get_config()
     stack = get_testing_stack(config)
     stack.__enter__()
