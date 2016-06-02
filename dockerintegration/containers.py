@@ -16,3 +16,6 @@ class Service(object):
             host_addresses = container.port_mappings.get(port, {})
             addresses.update(host_addresses)
         return list(addresses)
+
+    def get_one_address_by_port(self, port):
+        return self.get_addresses_by_port(port)[0]

@@ -1,5 +1,6 @@
 import six
 
+from dockerintegration.containers import HostAddress
 
 SERVICES = {
     'oneport': [59001, ],
@@ -35,3 +36,8 @@ def test_get_addresses_by_port_scale(docker_fixture):
     addresses = docker_fixture.services['oneport'].get_addresses_by_port(59001)
     assert len(addresses) == 2
     client.scale('oneport', 1)
+
+
+def test_get_one_address_by_port(docker_fixture):
+    address = docker_fixture.services['oneport'].get_one_address_by_port(59001)
+    assert type(address) == HostAddress

@@ -49,6 +49,14 @@ def test_get_addresses_by_port(services):
     assert address == services['foo'].containers[0].port_mappings[6789][0]
 
 
+def test_get_one_address_by_port(services):
+    docker_client = DockerClientStub(services=services)
+    with Stack(docker_client) as stack:
+        service = stack.services['foo']
+        address = service.get_one_address_by_port(6789)
+    assert address == services['foo'].containers[0].port_mappings[6789][0]
+
+
 def test_get_non_existent_service(services):
     docker_client = DockerClientStub(services=services)
     with Stack(docker_client) as stack:
