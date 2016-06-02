@@ -17,8 +17,7 @@ pip install dockerintegration
 ```
 
 ## Example Usage
-
-To find the Docker Compose YAML files Docker Integration needs the enviroment variable `COMPOSE_FILE` set.
+To find the [Docker Compose YAML files](https://docs.docker.com/compose/compose-file/) Docker Integration needs the enviroment variable `COMPOSE_FILE` set.
 This defaults to `./docker-compose.yml`.
 e.g.
 
