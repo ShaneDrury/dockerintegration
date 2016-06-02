@@ -57,14 +57,18 @@ Lower level usage:
 
 ```python
 
-def test_scaling_redis():
+def test_scaling_web_app():
     client = DockerClient(
-        project_name='testing_redis',
+        project_name='testing_web_app',
         base_dir='.',
         config_path='docker-compose.yml'
     )
     with Stack(client) as stack:
-        stack.scale('redis', 2)
+        stack.scale('app', 4)
+        nginx_address = stack.services['nginx'].get_one_address_by_port(80)
+        requests.get("http://{ip}:{port}".format(ip=nginx_address.ip, port=nginx_address.port)
+        ...
+        # Test the scaled app handles requests correctly
 ```
 
 ## Running Tests

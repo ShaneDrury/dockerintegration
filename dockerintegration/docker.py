@@ -85,8 +85,8 @@ def port_mappings_from_container(docker_container):
     return {
         internal_port_from_docker(internal): [
             HostAddress(
-                address['HostIp'],
-                int(address['HostPort'])
+                ip=address['HostIp'],
+                port=int(address['HostPort'])
             )
             for address in addresses
         ]
