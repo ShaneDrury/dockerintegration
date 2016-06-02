@@ -18,6 +18,15 @@ pip install dockerintegration
 
 ## Example Usage
 
+To find the Docker Compose YAML files Docker Integration needs the enviroment variable `COMPOSE_FILE` set.
+This defaults to `./docker-compose.yml`.
+e.g.
+
+```bash
+$ export COMPOSE_FILE=dockerintegration/tests/integration/files/test-compose.yml 
+$ py.test
+```
+
 # py.test
 
 ```python
@@ -42,6 +51,20 @@ def test_push_to_redis_better(docker_fixture):
     redis = StrictRedis(host=address.ip, port=address.port)
     redis.rpush('key', ['value'])
     ...
+```
+
+Lower level usage:
+
+```python
+
+def test_scaling_redis():
+    client = DockerClient(
+        project_name='testing_redis',
+        base_dir='.',
+        config_path='docker-compose.yml'
+    )
+    with Stack(client) as stack:
+        stack.scale('redis', 2)
 ```
 
 ## Running Tests
