@@ -18,12 +18,20 @@ def test_docker_fixture_services(docker_fixture):
 def test_docker_scale(docker_fixture):
     client = docker_fixture.docker_client
     assert len(docker_fixture.services['oneport'].containers) == 1
-    for service in client.project.services:
-        if service.name == 'oneport':
-            service.scale(2)
-            break
-    else:
-        raise ValueError("No service 'oneport'")
+    client.scale('oneport', 2)
     assert len(docker_fixture.services['oneport'].containers) == 2
-    service.scale(1)
+    client.scale('oneport', 1)
     assert len(docker_fixture.services['oneport'].containers) == 1
+
+
+def test_get_addresses_by_port(docker_fixture):
+    addresses = docker_fixture.services['oneport'].get_addresses_by_port(59001)
+    assert len(addresses) == 1
+
+
+def test_get_addresses_by_port_scale(docker_fixture):
+    client = docker_fixture.docker_client
+    client.scale('oneport', 2)
+    addresses = docker_fixture.services['oneport'].get_addresses_by_port(59001)
+    assert len(addresses) == 2
+    client.scale('oneport', 1)

@@ -1,7 +1,7 @@
 import six
 from compose.cli.command import get_project
 
-from .containers import Container, Address, Service
+from .containers import Container, HostAddress, Service
 
 
 class DockerClientStub(object):
@@ -61,10 +61,13 @@ class DockerClient(object):
         return {
             service.name: Service(
                 name=service.name,
-                containers=list(map(create_container, service.containers()))
+                containers=list(map(create_container, service.containers())),
             )
             for service in self.project.services
         }
+
+    def scale(self, service_name, n):
+        self.project.get_service(service_name).scale(n)
 
 
 def create_container(container):
@@ -81,7 +84,7 @@ def internal_port_from_docker(docker_port):
 def port_mappings_from_container(docker_container):
     return {
         internal_port_from_docker(internal): [
-            Address(
+            HostAddress(
                 address['HostIp'],
                 int(address['HostPort'])
             )

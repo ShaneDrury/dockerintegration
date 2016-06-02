@@ -2,7 +2,7 @@ from collections import namedtuple
 
 Container = namedtuple('Container', 'name, port_mappings')
 
-Address = namedtuple('Address', 'ip, port')
+HostAddress = namedtuple('HostAddress', 'ip, port')
 
 
 class Service(object):
@@ -10,10 +10,9 @@ class Service(object):
         self.name = name
         self.containers = containers
 
-    def get_containers_by_port(self, port):
-        containers = []
+    def get_addresses_by_port(self, port):
+        addresses = set()
         for container in self.containers:
-            for internal_port in container.port_mappings.keys():
-                if internal_port == port:
-                    containers.append(container)
-        return containers
+            host_addresses = container.port_mappings.get(port, {})
+            addresses.update(host_addresses)
+        return list(addresses)
