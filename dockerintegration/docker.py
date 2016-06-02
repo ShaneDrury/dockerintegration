@@ -70,7 +70,7 @@ class DockerClient(object):
 def create_container(container):
     return Container(
         name=container.name,
-        addresses=addresses_from_container(container)
+        port_mappings=port_mappings_from_container(container)
     )
 
 
@@ -78,7 +78,7 @@ def internal_port_from_docker(docker_port):
     return int(docker_port.split('/')[0])
 
 
-def addresses_from_container(docker_container):
+def port_mappings_from_container(docker_container):
     return {
         internal_port_from_docker(internal): [
             Address(

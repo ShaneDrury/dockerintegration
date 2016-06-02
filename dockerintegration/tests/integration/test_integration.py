@@ -11,7 +11,7 @@ def test_docker_fixture_services(docker_fixture):
     for service_name, ports in six.iteritems(SERVICES):
         service = docker_fixture.services[service_name]
         for container in service.containers:
-            docker_ports = container.addresses.keys()
+            docker_ports = container.port_mappings.keys()
             assert sorted(ports) == sorted(docker_ports)
 
 

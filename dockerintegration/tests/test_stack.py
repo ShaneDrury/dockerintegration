@@ -13,14 +13,14 @@ def services():
             containers=[
                 Container(
                     'foo_1',
-                    addresses={6789: [Address('0.0.0.0', 1234)]}
+                    port_mappings={6789: [Address('0.0.0.0', 1234)]}
                 )
             ]
         ),
         'bar': Service(
             name='bar',
             containers=[
-                Container('bar_1', addresses={7000: [Address('1.2.3.4', 5678)]})
+                Container('bar_1', port_mappings={7000: [Address('1.2.3.4', 5678)]})
             ]
         )
     }
@@ -46,8 +46,8 @@ def test_get_first_container_address(services):
     with Stack(docker_client) as stack:
         service = stack.services['foo']
         container = service.get_containers_by_port(6789)[0]
-        address = container.addresses[6789][0]
-    assert address == services['foo'].containers[0].addresses[6789][0]
+        address = container.port_mappings[6789][0]
+    assert address == services['foo'].containers[0].port_mappings[6789][0]
 
 
 def test_get_non_existent_service(services):
