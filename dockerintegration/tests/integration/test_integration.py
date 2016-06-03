@@ -41,3 +41,9 @@ def test_get_addresses_by_port_scale(docker_stack):
 def test_get_one_address_by_port(docker_stack):
     address = docker_stack.services['oneport'].get_one_address_by_port(59001)
     assert type(address) == HostAddress
+
+
+def test_scoping(docker_stack_func):
+    # Just testing that the fixture exists
+    addresses = docker_stack_func.services['oneport'].get_addresses_by_port(59001)
+    assert len(addresses) == 1
