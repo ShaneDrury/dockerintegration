@@ -29,11 +29,6 @@ $ py.test
 # py.test
 
 ```python
-# conftest.py
-from dockerintegration import docker_stack
-```
-
-```python
 # test_redis.py
 from redis import StrictRedis
 
@@ -70,10 +65,24 @@ def test_scaling_web_app():
         # Test the scaled app handles requests correctly
 ```
 
+# Scoping
+
+By default the docker_fixture has the scope 'session'. If you need a temporary stack e.g. when running isolated tests
+you can define your own fixture with a more limited scope:
+
+```python
+# conftest.py
+import pytest
+@pytest.fixture(scope='function')
+def docker_fixture_func(docker_fixture):
+    return docker_fixture
+```
+
 ## Running Tests
 
 ```bash
-make test
+make test       # Runs integration and unit tests
+make quicktest  # Only runs unit tests
 ```
 
 ## TODO
