@@ -1,1 +1,1 @@
-from .testing import docker_stack
+from dockerintegration.plugin import docker_stack

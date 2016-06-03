@@ -21,11 +21,3 @@ def get_testing_stack(config):
     project_name = random_name()
     client = DockerClient(project_name, **config)
     return Stack(client)
-
-
-def docker_stack(request):
-    config = get_config()
-    stack = get_testing_stack(config)
-    stack.__enter__()
-    request.addfinalizer(lambda: stack.__exit__())
-    return stack
