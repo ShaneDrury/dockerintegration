@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-        name='dockerintegration',
+        name='docker-integration',
         version='0.0.1',
         packages=['dockerintegration', 'dockerintegration.tests'],
         entry_points={
