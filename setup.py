@@ -26,7 +26,7 @@ setup(
         license='MIT',
         author='Shane Drury',
         author_email='shane.r.drury@gmail.com',
-        description='A ``pytest`` fixture to provide Docker integration.',
+        description='A pytest fixture to provide Docker integration.',
         keywords=['docker', 'integration'],
         install_requires=['docker-compose', ],
 )
