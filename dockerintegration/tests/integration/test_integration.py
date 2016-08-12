@@ -4,16 +4,16 @@ from dockerintegration.containers import HostAddress
 
 SERVICES = {
     'oneport': [59001, ],
-    'twoports': [59002, 59003]
+    'twoports': [59002, 59003],
+    'exposesport': [1234, ],
 }
 
 
 def test_docker_stack_services(docker_stack):
-    for service_name, ports in six.iteritems(SERVICES):
-        service = docker_stack.services[service_name]
+    for service_name, service in six.iteritems(docker_stack.services):
         for container in service.containers:
             docker_ports = container.port_mappings.keys()
-            assert sorted(ports) == sorted(docker_ports)
+            assert sorted(docker_ports) == sorted(SERVICES[service_name])
 
 
 def test_docker_scale(docker_stack):
