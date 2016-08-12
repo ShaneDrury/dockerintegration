@@ -13,7 +13,7 @@ Set-up and tear-down for integration tests.
 ## Installation
 
 ```python
-pip install dockerintegration
+pip install docker-integration
 ```
 
 ## Example Usage
