@@ -1,8 +1,10 @@
 from distutils.core import setup
 
+__VERSION__ = "0.0.1"
+
 setup(
         name='docker-integration',
-        version='0.0.1',
+        version=__VERSION__,
         packages=['dockerintegration', 'dockerintegration.tests'],
         entry_points={
             'pytest11': [
