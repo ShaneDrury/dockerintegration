@@ -93,5 +93,5 @@ def port_mappings_from_container(docker_container):
                     port=int(address['HostPort'])
                 )
                 for address in addresses
-        ]
+            ]
     return mappings
