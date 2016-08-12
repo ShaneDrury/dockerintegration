@@ -82,13 +82,16 @@ def internal_port_from_docker(docker_port):
 
 
 def port_mappings_from_container(docker_container):
-    return {
-        internal_port_from_docker(internal): [
-            HostAddress(
-                ip=address['HostIp'],
-                port=int(address['HostPort'])
-            )
-            for address in addresses
-        ]
-        for internal, addresses in six.iteritems(docker_container.ports)
-    }
+    mappings = {}
+    for internal, addresses in six.iteritems(docker_container.ports):
+        if not addresses:
+            mappings[internal_port_from_docker(internal)] = []
+        else:
+            mappings[internal_port_from_docker(internal)] = [
+                HostAddress(
+                    ip=address['HostIp'],
+                    port=int(address['HostPort'])
+                )
+                for address in addresses
+            ]
+    return mappings
