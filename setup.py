@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-__VERSION__ = "0.0.1"
+__VERSION__ = "0.0.2"
 
 setup(
         name='docker-integration',
